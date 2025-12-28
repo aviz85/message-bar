@@ -154,13 +154,14 @@ function App() {
     return expires && Date.now() < expires
   }
 
-  // Get cooldown percentage remaining (for visual)
+  // Get cooldown percentage filled (for visual) - shows filling up
   const getBottleCooldownPercent = (templateId) => {
     const expires = bottleCooldowns[templateId]
-    if (!expires) return 0
+    if (!expires) return 100
     const remaining = expires - Date.now()
-    if (remaining <= 0) return 0
-    return (remaining / 3000) * 100 // 3 second cooldown
+    if (remaining <= 0) return 100
+    // Invert: starts at 0% (empty), fills to 100% (full/ready)
+    return 100 - (remaining / 3000) * 100
   }
 
   // Refs for intervals
